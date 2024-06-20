@@ -1,17 +1,25 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 import os
 import asyncio
+from itertools import cycle
 
 bot =  commands.Bot(command_prefix=".", intents=discord.Intents.all())
+
+bot_status = cycle(["Fazendo um DELETE sem WHERE","Criando um ponteiro com endereço nulo","(WHILE = TRUE) { este bot não estará vendendo os dados deste servidor }"])
+
+@tasks.loop(seconds=24)
+async def changeStatus():
+    await bot.change_presence(activity=discord.Game(next(bot_status)))
 
 @bot.event
 async def on_ready():
     print("bot prontasso")
+    changeStatus.start()
 
 @bot.command()
-async def on(ctx):
-    await ctx.send(f"pai ta on!, {ctx.author.mention}!? ta moscando!")
+async def oi(ctx):
+    await ctx.send(f"Aoeba {ctx.author.mention} bão?")
 
 with open("token.txt") as file:
     token = file.read().strip()
