@@ -4,31 +4,41 @@ import os
 import asyncio
 from itertools import cycle
 
+#   SET A PREFIX FOR COMMANDS
 bot =  commands.Bot(command_prefix=".", intents=discord.Intents.all())
 
-bot_status = cycle(["Fazendo um DELETE sem WHERE","Criando um ponteiro com endereço nulo","(WHILE = TRUE) { este bot não estará vendendo os dados deste servidor }"])
+# SET THE MESSAGES IN A CYCLE FOR THE BOT STATUS
+bot_status = cycle(["Creating a DELETE without WHERE",
+                    "Creating a pointer with a null address",
+                    "(WHILE = TRUE) { This bot will sell your server data }"])
 
-@tasks.loop(seconds=24)
+#   DEFINE TIME AND RUNS THE STATUS
+@tasks.loop(seconds=5)
 async def changeStatus():
     await bot.change_presence(activity=discord.Game(next(bot_status)))
 
+#   SET WHEN BOT HAS FINISHED EVERY LOAD
 @bot.event
 async def on_ready():
-    print("bot prontasso")
+    print("Bot prontasso!")
     changeStatus.start()
 
+#   BOT AWNSER A HI / CHECK IF IS RUNNIG FINE
 @bot.command()
 async def oi(ctx):
     await ctx.send(f"Aoeba {ctx.author.mention} bão?")
 
+#   SETS WHERE THE TOKEN IS
 with open("token.txt") as file:
     token = file.read().strip()
 
+#   READ EVERY COG
 async def load():
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py"):
             await bot.load_extension(f"cogs.{filename[:-3]}")
 
+#   START THE APP
 async def main():
     async with bot:
         await load()

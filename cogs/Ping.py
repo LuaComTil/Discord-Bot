@@ -1,14 +1,17 @@
 import discord
 from discord.ext import commands
 
-class Test(commands.Cog):
+class Ping(commands.Cog):
+#   Initialize bot as a attribute
     def __init__(self, bot):
         self.bot = bot
 
+#   Warn when Cog is ready
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f"{__name__} ta on papai")
+        print(f"{__name__} está pronto")
 
+#Creates Embed as an OBJ
     @commands.command()
     async def ping(self, ctx):
         ping_embed = discord.Embed(
@@ -28,9 +31,10 @@ class Test(commands.Cog):
             text=f"Pedido pelo curioso {ctx.author.name}",
             icon_url=ctx.author.avatar.url
         )
-
+#       Send the Embed in the channel that was called
         await ctx.send(embed=ping_embed)
 
+#Register Cog in the bot
 async def setup(bot):
-    await bot.add_cog(Test(bot))
-    print(f"Cog {__name__} got loaded")
+    await bot.add_cog(Ping(bot))
+    print(f"{__name__} foi carregado")
