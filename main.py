@@ -8,12 +8,18 @@ from itertools import cycle
 bot =  commands.Bot(command_prefix=".", intents=discord.Intents.all())
 
 # SET THE MESSAGES IN A CYCLE FOR THE BOT STATUS
-bot_status = cycle(["Creating a DELETE without WHERE",
-                    "Creating a pointer with a null address",
-                    "(WHILE = TRUE) { This bot will sell your server data }"])
+bot_status = cycle(["Creating a DELETE without WHERE.",
+                    "Creating a pointer with a null address.",
+                    "(WHILE = TRUE) { This bot will sell your server data }"
+                    "The cake is a lie."
+                    "Who is John Galt?"
+                    "A Man Chooses, A Slave Obeys."
+                    "Would you rather live in peace as Mr. Nobody, or go down for all times in a blaze of glory?"
+                    "What is better? to be born good or to overcome your evil nature through great effort?"
+                   ])
 
 #   DEFINE TIME AND RUNS THE STATUS
-@tasks.loop(seconds=5)
+@tasks.loop(seconds=30)
 async def changeStatus():
     await bot.change_presence(activity=discord.Game(next(bot_status)))
 
